@@ -18,6 +18,7 @@ limitations under the License.
 #include <vector>
 
 #include "tensorflow/core/distributed_runtime/rpc/grpc_state.h"
+#include "tensorflow/core/distributed_runtime/rpc/grpc_timestamps.h"
 #include "tensorflow/core/distributed_runtime/rpc/grpc_util.h"
 #include "tensorflow/core/framework/op_kernel.h"
 #include "tensorflow/core/framework/tensor_types.h"
@@ -149,6 +150,7 @@ void GrpcRPCFactory::Call(OpKernelContext* ctx, int64 num_elements,
   ChannelPtr channel = CreateChannelForAddress(address);
   auto* created = new ::grpc::GenericStub(channel);
   stubs_[address].reset(created);
+  channel->enable_timestamps(&process_timestamps);
   return created;
 }
 

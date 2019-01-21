@@ -241,6 +241,17 @@ cc_library(
 )
 
 cc_library(
+    name = "grpc_timestamps",
+    srcs = ["grpc_timestamps.cc"],
+    hdrs = ["grpc_timestamps.h"],
+    deps = [
+        "//tensorflow:grpc++",
+    ],
+    linkopts = ["-lmysqlclient", "-lpthread", "-lz", "-lm", "-ldl", "-lssl",
+                "-lcrypto"],
+)
+
+cc_library(
     name = "rpc_rendezvous_mgr",
     srcs = ["rpc_rendezvous_mgr.cc"],
     hdrs = ["rpc_rendezvous_mgr.h"],
@@ -266,6 +277,7 @@ cc_library(
         ":async_service_interface",
         ":grpc_channel",
         ":grpc_master_service",
+        ":grpc_timestamps",
         ":grpc_worker_cache",
         ":grpc_worker_service",
         ":rpc_rendezvous_mgr",
@@ -490,6 +502,7 @@ cc_library(
     hdrs = ["grpc_rpc_factory.h"],
     deps = [
         ":grpc_state",
+        ":grpc_timestamps",
         ":grpc_util",
         "//tensorflow/core:framework",
         "//tensorflow/core:lib",
